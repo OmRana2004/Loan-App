@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Enquiry {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  loanType  String
+  message   String?
+  createdAt DateTime @default(now())
+}
