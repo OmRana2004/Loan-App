@@ -1,58 +1,68 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export const LayoutTextFlip = ({
-  text = "Build Amazing",
-  words = ["Landing Pages", "Component Blocks", "Page Sections", "3D Shaders"],
-  duration = 3000,
-}: {
+type LayoutTextFlipProps = {
   text: string;
   words: string[];
   duration?: number;
-}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+};
 
+export const LayoutTextFlip = ({
+  text,
+  words,
+  duration = 3000,
+}: LayoutTextFlipProps) => {
+  const [index, setIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, duration);
-
-    return () => clearInterval(interval);
+    setMounted(true);
   }, []);
 
-  return (
-    <>
-      <motion.span
-        layoutId="subtext"
-        className="text-2xl font-bold tracking-tight drop-shadow-lg md:text-4xl"
-      >
-        {text}
-      </motion.span>
+  // Deterministic animation (no interval drift)
+  useEffect(() => {
+    if (!mounted) return;
 
-      <motion.span
-        layout
-        className="relative w-fit overflow-hidden rounded-md border border-transparent  px-2 py-0 font-sans text-2xl font-bold tracking-tight text-white shadow-sm ring shadow-black/10 ring-black/10 drop-shadow-lg md:text-4xl dark:text-blue-500 dark:shadow-sm dark:ring-1 dark:shadow-white/10 dark:ring-white/10"
-      >
-        <AnimatePresence mode="popLayout">
+    const timeout = setTimeout(() => {
+      setIndex((i) => (i + 1) % words.length);
+    }, duration);
+
+    return () => clearTimeout(timeout);
+  }, [index, mounted, duration, words.length]);
+
+  // SEO + SSR fallback
+  if (!mounted) {
+    return (
+      <span className="text-2xl md:text-4xl font-bold tracking-tight">
+        {text} {words[0]}
+      </span>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2 flex-wrap justify-center">
+      <span className="text-2xl md:text-4xl font-bold tracking-tight drop-shadow-lg">
+        {text}
+      </span>
+
+      <span className="relative overflow-hidden px-0 py-0 text-2xl md:text-4xl font-bold tracking-tight text-blue-600">
+        <AnimatePresence mode="wait">
           <motion.span
-            key={currentIndex}
-            initial={{ y: -40, filter: "blur(10px)" }}
-            animate={{
-              y: 0,
-              filter: "blur(0px)",
-            }}
-            exit={{ y: 50, filter: "blur(10px)", opacity: 0 }}
-            transition={{
-              duration: 0.5,
-            }}
+            key={index}
+            initial={{ y: -24, opacity: 0, filter: "blur(8px)" }}
+            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+            exit={{ y: 24, opacity: 0, filter: "blur(8px)" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
             className={cn("inline-block whitespace-nowrap")}
           >
-            {words[currentIndex]}
+            {words[index]}
           </motion.span>
         </AnimatePresence>
-      </motion.span>
-    </>
+      </span>
+    </div>
   );
 };
