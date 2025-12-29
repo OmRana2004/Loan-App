@@ -3,172 +3,203 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { LayoutTextFlip } from "./components/ui/layout-text-flip";
 
-/* Animation variants */
+
+/* Motion */
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
 const stagger = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 export default function HomePage() {
   return (
     <>
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-linear-to-br from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 py-32 text-center relative z-10">
-          <motion.h1
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-linear-to-br from-blue-100 via-white to-white">
+        <div className="absolute inset-0 bg-[radial-gradient(#e5edff_1px,transparent_1px)] bg-size-[26px_26px] opacity-20" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 pt-28 pb-24 md:pt-32 md:pb-28 text-center">
+          <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6"
+            transition={{ duration: 0.7 }}
+            className="flex justify-center mb-6"
           >
-            Trusted Loans for{" "}
-            <span className="text-blue-600">Every Stage of Life</span>
-          </motion.h1>
+            <LayoutTextFlip
+              text="Reliable Loans for "
+              words={[
+                "Personal Loans",
+                "Education Loans",
+                "Business Loans",
+                "Trusted Financial Support",
+              ]}
+            />
+          </motion.div>
 
           <motion.p
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-lg text-gray-600 max-w-3xl mx-auto"
+            transition={{ delay: 0.15, duration: 0.55 }}
+            className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed"
           >
-            We provide transparent, reliable and personalized loan solutions
-            designed to support your personal, educational and business goals.
+            Transparent interest rates, flexible repayment plans and direct
+            communication designed to support your financial goals.
           </motion.p>
         </div>
 
-        {/* Animated background blobs */}
+        {/* Floating accents */}
         <motion.div
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-24 -left-24 w-80 h-80 bg-blue-200 rounded-full blur-3xl opacity-30"
+          animate={{ y: [0, -18, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-28 -left-28 w-80 h-80 bg-blue-300 rounded-full blur-3xl opacity-25"
         />
         <motion.div
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 -right-24 w-80 h-80 bg-indigo-200 rounded-full blur-3xl opacity-30"
+          animate={{ y: [0, 26, 0] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 -right-28 w-80 h-80 bg-indigo-300 rounded-full blur-3xl opacity-25"
         />
       </section>
 
-      {/* ABOUT US SECTION */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      {/* ABOUT */}
+      <section className="max-w-7xl mx-auto px-4 py-20 md:py-24">
         <motion.div
-          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid md:grid-cols-2 gap-14 items-center"
+          variants={stagger}
+          className="grid md:grid-cols-2 gap-12 items-center"
         >
-          <div>
-            <h2 className="text-3xl font-bold mb-6">
-              About <span className="text-blue-600">Us</span>
+          <motion.div variants={fadeUp}>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">
+              About <span className="text-blue-600">Our Services</span>
             </h2>
 
-            <p className="text-gray-600 mb-5 leading-relaxed">
-              We are a trusted private loan service focused on providing honest,
-              clear and flexible financial support. Our goal is to simplify
-              borrowing with easy-to-understand loan options.
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              We offer private loan services focused on clarity, fairness and
+              long-term trust. Every loan is explained clearly before approval.
             </p>
 
             <p className="text-gray-600 leading-relaxed">
-              Whether you need funds for education, personal needs or business
-              growth, we help you choose a loan plan that fits your repayment
-              capacity.
+              Our goal is to structure repayments that suit your income and
+              comfort, not pressure you with unrealistic terms.
             </p>
-          </div>
+          </motion.div>
 
           {/* Stats */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-2 gap-6"
-          >
+          <motion.div variants={stagger} className="grid grid-cols-2 gap-4">
             {[
-              { label: "Years of Trust", value: "10+" },
-              { label: "Happy Clients", value: "500+" },
+              { label: "Experience", value: "10+" },
+              { label: "Clients", value: "500+" },
               { label: "Loan Types", value: "5+" },
-              { label: "Personal Support", value: "100%" },
+              { label: "Transparency", value: "100%" },
             ].map((item, i) => (
               <motion.div
                 key={i}
                 variants={fadeUp}
                 whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl p-6 shadow-sm text-center"
+                transition={{ duration: 0.25 }}
+                className="bg-white rounded-2xl p-5 border border-gray-100 text-center"
               >
-                <div className="text-3xl font-bold text-blue-600 mb-1">
+                <div className="text-2xl font-bold text-blue-600 mb-1">
                   {item.value}
                 </div>
-                <div className="text-gray-600 text-sm">{item.label}</div>
+                <div className="text-gray-600 text-xs tracking-wide">
+                  {item.label}
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </motion.div>
       </section>
 
-      {/* WHY CHOOSE US */}
-      <section className="bg-gray-50 py-24">
+      {/* HOW IT WORKS */}
+      <section className="bg-gray-50 py-20 md:py-24">
         <motion.div
-          variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-10 text-center"
+          variants={stagger}
+          className="max-w-7xl mx-auto px-4 text-center"
         >
-          {[
-            {
-              title: "Transparent Process",
-              desc: "Clear interest rates and no hidden charges.",
-            },
-            {
-              title: "Flexible Repayment",
-              desc: "Tenures aligned with your income comfort.",
-            },
-            {
-              title: "Direct Communication",
-              desc: "Personal guidance at every step.",
-            },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md"
-            >
-              <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-              <p className="text-gray-600">{item.desc}</p>
-            </motion.div>
-          ))}
+          <motion.h2
+            variants={fadeUp}
+            className="text-2xl md:text-3xl font-bold mb-10 tracking-tight"
+          >
+            How It <span className="text-blue-600">Works</span>
+          </motion.h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Submit Enquiry",
+                desc: "Share your loan requirement using our simple form.",
+              },
+              {
+                title: "Personal Discussion",
+                desc: "We contact you to understand needs and repayment capacity.",
+              },
+              {
+                title: "Loan Approval",
+                desc: "Clear documentation and smooth fund disbursement.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-7 rounded-2xl border border-gray-100"
+              >
+                <h3 className="text-lg font-semibold mb-2 tracking-tight">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </section>
 
-      {/* FLOATING EXPLORE BUTTON */}
+      {/* TRUST NOTE */}
+      <section className="max-w-4xl mx-auto px-4 py-16 text-center">
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="text-gray-500 text-sm leading-relaxed"
+        >
+          We follow responsible lending practices. All interest rates, repayment
+          schedules and conditions are communicated clearly before approval.
+          Borrow responsibly and assess repayment capability.
+        </motion.p>
+      </section>
+
+      {/* FLOATING CTA */}
       <motion.div
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        className="fixed bottom-6 right-6 z-50"
+        className="fixed bottom-5 right-5 z-50"
       >
         <Link
           href="/loans"
-          className="bg-blue-600 text-white px-6 py-4 rounded-full shadow-xl hover:bg-blue-700 transition flex items-center gap-2"
+          className="group bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm font-medium"
         >
           Explore Loans
-          <ArrowRight size={16} />
+          <ArrowRight
+            size={14}
+            className="transition-transform group-hover:translate-x-1"
+          />
         </Link>
       </motion.div>
     </>

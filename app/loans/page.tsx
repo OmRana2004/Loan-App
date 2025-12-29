@@ -4,11 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Percent, Clock } from "lucide-react";
 
+/* Loan Data */
 const loans = [
   {
     title: "Personal Loan",
     description:
-      "Flexible personal loans designed to support emergencies, travel plans and everyday financial needs with transparent terms.",
+      "Flexible personal loans for emergencies, travel and everyday needs with clearly defined interest rates and repayment terms.",
     interest: "12% – 18%",
     tenure: "1 – 5 Years",
     slug: "personal-loan",
@@ -16,7 +17,7 @@ const loans = [
   {
     title: "Education Loan",
     description:
-      "Affordable education loans to help you achieve academic goals with easy repayment options and lower interest rates.",
+      "Affordable education loans to support academic goals with lower interest rates and student-friendly repayment options.",
     interest: "8% – 12%",
     tenure: "3 – 7 Years",
     slug: "education-loan",
@@ -24,13 +25,14 @@ const loans = [
   {
     title: "Business Loan",
     description:
-      "Customized business loan solutions to help you expand operations, manage cash flow and grow sustainably.",
+      "Tailored business loan solutions designed to improve cash flow, fund expansion and support sustainable growth.",
     interest: "10% – 16%",
     tenure: "2 – 6 Years",
     slug: "business-loan",
   },
 ];
 
+/* Motion */
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
@@ -38,14 +40,14 @@ const fadeUp = {
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 export default function LoansPage() {
   return (
-    <section className="relative max-w-7xl mx-auto px-4 py-28">
-      {/* Subtle background */}
-      <div className="absolute inset-0 -z-10 bg-linear-to-b from-blue-50/50 via-white to-white" />
+    <section className="relative max-w-7xl mx-auto px-4 pt-24 pb-28">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-blue-50/60 via-white to-white" />
 
       {/* Header */}
       <motion.div
@@ -53,15 +55,15 @@ export default function LoansPage() {
         animate="visible"
         variants={fadeUp}
         transition={{ duration: 0.6 }}
-        className="text-center mb-24"
+        className="text-center mb-14 md:mb-20"
       >
-        <h1 className="text-4xl md:text-[42px] font-semibold tracking-tight text-gray-900 mb-6">
-          Our <span className="text-blue-600">Loan Services</span>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">
+          Loan <span className="text-blue-600">Solutions</span>
         </h1>
 
-        <p className="text-[17px] leading-relaxed text-gray-600 max-w-2xl mx-auto">
-          Explore carefully structured loan options with transparent pricing,
-          flexible repayment terms and personal guidance at every step.
+        <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Transparent loan options designed with clarity, flexibility and
+          responsible lending practices at the core.
         </p>
       </motion.div>
 
@@ -71,38 +73,40 @@ export default function LoansPage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid md:grid-cols-3 gap-12"
+        className="grid gap-7 md:gap-10 md:grid-cols-3"
       >
         {loans.map((loan) => (
-          <motion.div
+          <motion.article
             key={loan.slug}
             variants={fadeUp}
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.35 }}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 45px rgba(0,0,0,0.08)",
+            }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="
               relative bg-white rounded-3xl
-              p-9
+              p-7 md:p-8
               border border-gray-100
-              shadow-sm hover:shadow-xl
               transition-all
               flex flex-col
             "
           >
-            {/* Accent line */}
-            <div className="absolute top-0 left-0 w-full h-0.75 bg-linear-to-r from-blue-500 to-indigo-500 rounded-t-3xl" />
+            {/* Top Accent */}
+            <div className="absolute inset-x-0 top-0 h-1 rounded-t-3xl bg-linear-to-r from-blue-500 to-indigo-500" />
 
             {/* Title */}
-            <h2 className="text-[22px] font-semibold text-gray-900 mb-4">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 tracking-tight">
               {loan.title}
             </h2>
 
             {/* Description */}
-            <p className="text-[15.5px] leading-relaxed text-gray-600 mb-10 grow">
+            <p className="text-sm md:text-[15px] leading-relaxed text-gray-600 mb-6 grow">
               {loan.description}
             </p>
 
             {/* Meta */}
-            <div className="space-y-4 mb-10 text-[14.5px] text-gray-700">
+            <div className="space-y-3 mb-6 text-sm text-gray-700">
               <div className="flex items-center gap-2">
                 <Percent size={15} className="text-blue-600" />
                 <span>
@@ -127,15 +131,19 @@ export default function LoansPage() {
             {/* CTA */}
             <Link
               href={`/loans/${loan.slug}`}
-              className="inline-flex items-center gap-2 text-[15px] font-medium text-blue-600 group"
+              className="
+                inline-flex items-center gap-2
+                text-sm font-medium text-blue-600
+                group
+              "
             >
               View Details
               <ArrowRight
-                size={16}
+                size={15}
                 className="transition-transform group-hover:translate-x-1"
               />
             </Link>
-          </motion.div>
+          </motion.article>
         ))}
       </motion.div>
     </section>
