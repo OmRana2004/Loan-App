@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { prisma } from "@/db";
+import { getPrisma } from "@/db";
 
 export async function POST(req: Request) {
   try {
@@ -15,6 +15,8 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    const prisma = getPrisma();
 
     const enquiry = await prisma.enquiry.create({
       data: {
