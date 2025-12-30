@@ -37,7 +37,7 @@ export default function ContactPage() {
       alert("Enquiry submitted successfully");
       e.currentTarget.reset();
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      // alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
