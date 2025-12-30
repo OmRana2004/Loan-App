@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import axios from "axios";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -10,12 +11,13 @@ export default function ContactPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Prevent double submit (React Strict Mode)
+    // Prevent double submit (React Strict Mode safe)
     if (loading || submitted) return;
 
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
+
     const payload = {
       name: formData.get("name"),
       phone: formData.get("phone"),
@@ -24,25 +26,18 @@ export default function ContactPage() {
     };
 
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await axios.post("/api/enquiry", payload);
 
-      const data = await res.json();
-
-      if (!res.ok || data.success !== true) {
-        throw new Error(data.error || "Submission failed");
+      if (res.data?.success !== true) {
+        throw new Error(res.data?.error || "Submission failed");
       }
 
       // SUCCESS
       setSubmitted(true);
       alert("Enquiry submitted successfully");
       e.currentTarget.reset();
-    } catch {
-      // ERROR
-      alert("Something went wrong. Please try again.");
+    } catch (error) {
+      // alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -50,6 +45,7 @@ export default function ContactPage() {
 
   return (
     <section className="max-w-5xl mx-auto px-4 py-28">
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,6 +61,7 @@ export default function ContactPage() {
         </p>
       </motion.div>
 
+      {/* Card */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -89,30 +86,33 @@ export default function ContactPage() {
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="grid gap-6">
+              {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name
                 </label>
                 <input
                   name="name"
-                  required
                   type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
+              {/* Phone */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number
                 </label>
                 <input
                   name="phone"
-                  required
                   type="tel"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
+              {/* Loan Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Loan Type
@@ -120,15 +120,16 @@ export default function ContactPage() {
                 <select
                   name="loanType"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select loan type</option>
-                  <option>Personal Loan</option>
-                  <option>Education Loan</option>
-                  <option>Business Loan</option>
+                  <option value="Personal Loan">Personal Loan</option>
+                  <option value="Education Loan">Education Loan</option>
+                  <option value="Business Loan">Business Loan</option>
                 </select>
               </div>
 
+              {/* Message */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Message (Optional)
@@ -136,14 +137,15 @@ export default function ContactPage() {
                 <textarea
                   name="message"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 text-white py-4 rounded-xl font-medium disabled:opacity-60"
+                className="bg-blue-600 text-white py-4 rounded-xl font-medium hover:bg-blue-700 transition disabled:opacity-60"
               >
                 {loading ? "Submitting..." : "Submit Enquiry"}
               </button>
