@@ -22,7 +22,7 @@ export default function Navbar() {
           href="/"
           className="text-xl font-extrabold tracking-tight text-blue-600"
         >
-          MPS <span className="text-gray-900">Bank</span>
+          MPS <span className="text-gray-900"></span>
         </Link>
 
         {/* NAV LINKS */}
