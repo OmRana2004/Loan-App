@@ -141,8 +141,6 @@ export default function HomePage() {
   </motion.div>
 </section>
 
-
-
      {/* HOW IT WORKS – TIMELINE VERSION */}
 <section className="relative bg-gray-50 py-20 md:py-4 overflow-hidden">
   <div className="absolute inset-0 bg-linear-to-b from-blue-50/60 to-transparent" />

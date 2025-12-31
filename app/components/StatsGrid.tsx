@@ -24,7 +24,7 @@ export default function StatsGrid() {
         loans: Math.min(prev.loans + 1, 5),
         transparency: Math.min(prev.transparency + 5, 100),
       }));
-    }, 40);
+    }, 66);
 
     return () => clearInterval(interval);
   }, [isInView]);
