@@ -3,6 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
+import {
+  User,
+  Phone,
+  MessageSquare,
+  Banknote,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -10,8 +18,6 @@ export default function ContactPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    // Prevent double submit (React Strict Mode safe)
     if (loading || submitted) return;
 
     setLoading(true);
@@ -27,37 +33,35 @@ export default function ContactPage() {
 
     try {
       const res = await axios.post("/api/enquiry", payload);
+      if (!res.data?.success) throw new Error("Failed");
 
-      if (res.data?.success !== true) {
-        throw new Error(res.data?.error || "Submission failed");
-      }
-
-      // SUCCESS
       setSubmitted(true);
-      alert("Enquiry submitted successfully");
       e.currentTarget.reset();
-    } catch (error) {
-      // alert("Something went wrong. Please try again.");
+    } catch {
+      // you can add toast later
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <section className="max-w-5xl mx-auto px-4 py-28">
+    <section className="relative overflow-hidden py-28 px-4">
+      {/* Soft background */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-br from-blue-50 via-white to-indigo-50" />
+
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.5 }}
         className="text-center mb-20"
       >
-        <h1 className="text-4xl font-semibold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900">
           Loan Enquiry
         </h1>
-        <p className="text-gray-600 max-w-xl mx-auto">
-          Fill in your details and we’ll contact you shortly with the best loan
-          option for your needs.
+        <p className="mt-4 text-slate-600 max-w-xl mx-auto">
+          Share your details and our loan expert will contact you shortly with
+          the best available option.
         </p>
       </motion.div>
 
@@ -65,94 +69,173 @@ export default function ContactPage() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.4 }}
-        className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100"
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="
+          max-w-3xl mx-auto
+          rounded-3xl
+          border border-slate-200/60
+          bg-white/70 backdrop-blur-xl
+          shadow-[0_20px_60px_rgba(15,23,42,0.08)]
+          p-10
+        "
       >
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div
               key="success"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-16"
             >
-              <h2 className="text-2xl font-semibold text-green-600 mb-3">
-                Enquiry Submitted Successfully
+              <CheckCircle2 className="mx-auto h-14 w-14 text-green-500 mb-4" />
+              <h2 className="text-2xl font-semibold text-slate-900 mb-2">
+                Enquiry Submitted
               </h2>
-              <p className="text-gray-600">
-                Thank you for contacting us. Our team will reach out to you
-                shortly.
+              <p className="text-slate-600">
+                Thank you for reaching out. Our team will contact you shortly.
               </p>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="grid gap-6">
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <input
-                  name="name"
-                  type="text"
-                  required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid gap-6"
+            >
+              <Input
+                label="Full Name"
+                name="name"
+                icon={User}
+                placeholder="Enter your full name"
+              />
 
-              {/* Phone */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  name="phone"
-                  type="tel"
-                  required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+              <Input
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                icon={Phone}
+                placeholder="Enter your mobile number"
+              />
 
-              {/* Loan Type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Loan Type
-                </label>
-                <select
-                  name="loanType"
-                  required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select loan type</option>
-                  <option value="Personal Loan">Personal Loan</option>
-                  <option value="Education Loan">Education Loan</option>
-                  <option value="Business Loan">Business Loan</option>
-                </select>
-              </div>
+              <Select
+                label="Loan Type"
+                name="loanType"
+                icon={Banknote}
+                options={[
+                  "Personal Loan",
+                  "Education Loan",
+                  "Business Loan",
+                ]}
+              />
 
-              {/* Message */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Message (Optional)
-                </label>
-                <textarea
-                  name="message"
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+              <Textarea
+                label="Message (Optional)"
+                name="message"
+                icon={MessageSquare}
+                placeholder="Any specific requirement..."
+              />
 
-              {/* Submit */}
-              <button
-                type="submit"
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
                 disabled={loading}
-                className="bg-blue-600 text-white py-4 rounded-xl font-medium hover:bg-blue-700 transition disabled:opacity-60"
+                className="
+                  mt-4
+                  flex items-center justify-center gap-2
+                  rounded-xl
+                  bg-linear-to-r from-blue-600 to-indigo-600
+                  py-4
+                  font-semibold text-white
+                  shadow-lg
+                  hover:shadow-xl
+                  transition
+                  disabled:opacity-60
+                "
               >
-                {loading ? "Submitting..." : "Submit Enquiry"}
-              </button>
-            </form>
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Enquiry"
+                )}
+              </motion.button>
+            </motion.form>
           )}
         </AnimatePresence>
       </motion.div>
     </section>
+  );
+}
+
+/* ---------------- Reusable Inputs ---------------- */
+
+function Input({ label, icon: Icon, ...props }: any) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <div className="relative mt-1">
+        <Icon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+        <input
+          {...props}
+          required
+          className="
+            w-full rounded-xl border border-slate-300
+            py-3 pl-11 pr-4
+            focus:border-blue-500 focus:ring-2 focus:ring-blue-500
+            outline-none
+          "
+        />
+      </div>
+    </div>
+  );
+}
+
+function Select({ label, icon: Icon, options, ...props }: any) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <div className="relative mt-1">
+        <Icon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+        <select
+          {...props}
+          required
+          className="
+            w-full rounded-xl border border-slate-300
+            py-3 pl-11 pr-4
+            focus:border-blue-500 focus:ring-2 focus:ring-blue-500
+            outline-none
+          "
+        >
+          <option value="">Select loan type</option>
+          {options.map((o: string) => (
+            <option key={o}>{o}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+}
+
+function Textarea({ label, icon: Icon, ...props }: any) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <div className="relative mt-1">
+        <Icon className="absolute left-3 top-4 h-5 w-5 text-slate-400" />
+        <textarea
+          {...props}
+          rows={4}
+          className="
+            w-full rounded-xl border border-slate-300
+            py-3 pl-11 pr-4
+            focus:border-blue-500 focus:ring-2 focus:ring-blue-500
+            outline-none
+          "
+        />
+      </div>
+    </div>
   );
 }
