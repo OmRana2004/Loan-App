@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, PhoneCall, ShieldCheck, CheckCircle2, Phone } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
 import { LayoutTextFlip } from "./components/ui/layout-text-flip";
 import StatsGrid from "./components/StatsGrid";
 

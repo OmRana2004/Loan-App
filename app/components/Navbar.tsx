@@ -2,62 +2,83 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
+import {
+  Navbar as ResizableNavbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  MobileNavHeader,
+  MobileNavMenu,
+  MobileNavToggle,
+  NavbarLogo,
+  NavbarButton,
+} from "./ui/resizable-navbar";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const navItems = [
+    { name: "Home", link: "/" },
+    { name: "Loans", link: "/loans" },
+    { name: "Contact", link: "/contact" },
+  ];
+
   return (
     <motion.nav
-      initial={{ y: -20, opacity: 0 }}
+      initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="
         sticky top-0 z-50
-        bg-linear-to-b from-white/90 to-white/70
-        backdrop-blur-xl
-        border-b border-gray-200/60
+        backdrop-blur-2xl
+        bg-linear-to-r
+        from-white/60 via-white/40 to-white/60
+        border-b border-slate-200/50
+        shadow-[0_10px_40px_rgba(15,23,42,0.08)]
       "
     >
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* LOGO */}
-        <Link
-          href="/"
-          className="text-xl font-extrabold tracking-tight text-blue-600"
-        >
-          MPS <span className="text-gray-900"></span>
-        </Link>
+      <ResizableNavbar>
+        {/* Desktop Navbar */}
+        <NavBody>
+          <NavbarLogo />
 
-        {/* NAV LINKS */}
-        <div className="flex items-center gap-8">
-          <NavItem href="/" label="Home" />
-          <NavItem href="/loans" label="Loans" />
-          <NavItem href="/contact" label="Contact" />
-        </div>
-      </div>
+          <NavItems items={navItems} />
+
+          <div>
+            <NavbarButton variant="gradient">Talk to an Advisor</NavbarButton>
+          </div>
+        </NavBody>
+
+        {/* Mobile Navbar */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={open}
+              onClick={() => setOpen(!open)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu isOpen={open} onClose={() => setOpen(false)}>
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.link}
+                onClick={() => setOpen(false)}
+                className="text-neutral-700 dark:text-neutral-200"
+              >
+                {item.name}
+              </Link>
+            ))}
+
+            <NavbarButton variant="gradient" className="w-full">
+             Talk to an Advisor
+            </NavbarButton>
+          </MobileNavMenu>
+        </MobileNav>
+      </ResizableNavbar>
     </motion.nav>
-  );
-}
-
-/* ---------------------------------- */
-/* Nav Item */
-/* ---------------------------------- */
-function NavItem({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="
-        relative text-gray-700 font-medium
-        transition-colors duration-200
-        hover:text-blue-600
-      "
-    >
-      {label}
-      <span
-        className="
-          absolute left-0 -bottom-1
-          h-0.5 w-0 bg-blue-600
-          transition-all duration-300
-          group-hover:w-full
-        "
-      />
-    </Link>
   );
 }
