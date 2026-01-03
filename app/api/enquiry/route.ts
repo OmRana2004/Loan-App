@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         phone,
         loanType,
         message,
-        status: "NEW", // 👈 default status
+        // status: "NEW", 
       },
     });
 
