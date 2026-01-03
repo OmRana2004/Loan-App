@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const ADMIN_EMAIL = "admin@2026";
+const ADMIN_EMAIL = "admin@mps.com";
 const ADMIN_PASSWORD = "Admin@2026";
 
 export async function POST(req: Request) {
