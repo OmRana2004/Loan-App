@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { motion, AnimatePresence } from "framer-motion";
+
+type Status = "NEW" | "CONTACTED";
 
 type Enquiry = {
   id: string;
@@ -10,133 +11,158 @@ type Enquiry = {
   phone: string;
   loanType: string;
   message?: string;
+  status: Status;
   createdAt: string;
 };
 
-/* -------- Animations -------- */
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
-};
-
-const row = {
-  hidden: { opacity: 0, y: 6 },
-  show: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -6 },
-};
+function StatusBadge({ status }: { status: Status }) {
+  return (
+    <span
+      className={`rounded-full px-2 py-0.5 text-xs font-medium
+        ${
+          status === "NEW"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
+        }`}
+    >
+      {status}
+    </span>
+  );
+}
 
 export default function AdminEnquiriesPage() {
-  const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [data, setData] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
-  async function fetchEnquiries() {
-    try {
-      const res = await axios.get("/api/enquiry");
-      setEnquiries(res.data);
-    } finally {
-      setLoading(false);
-    }
+  async function loadData() {
+    const res = await axios.get("/api/enquiry");
+    setData(res.data);
+    setLoading(false);
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm("Delete this enquiry?")) return;
+  async function updateStatus(id: string, status: Status) {
+    const next = status === "NEW" ? "CONTACTED" : "NEW";
+    setBusyId(id);
 
-    setDeletingId(id);
+    await axios.patch("/api/enquiry", { id, status: next });
+    setData((p) =>
+      p.map((e) => (e.id === id ? { ...e, status: next } : e))
+    );
+
+    setBusyId(null);
+  }
+
+  async function remove(id: string) {
+    if (!confirm("Delete enquiry?")) return;
+
+    setBusyId(id);
     await axios.delete(`/api/enquiry?id=${id}`);
-
-    setEnquiries((prev) => prev.filter((e) => e.id !== id));
-    setDeletingId(null);
+    setData((p) => p.filter((e) => e.id !== id));
+    setBusyId(null);
   }
 
   useEffect(() => {
-    fetchEnquiries();
+    loadData();
   }, []);
 
+  if (loading) return <p className="p-6 text-gray-500">Loading…</p>;
+  if (!data.length)
+    return <p className="p-6 text-gray-500">No enquiries</p>;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="p-8"
-    >
-      <motion.h1
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-2xl font-bold mb-6"
-      >
-        Enquiry List
-      </motion.h1>
+    <div className="p-4 max-w-6xl mx-auto">
+      <h1 className="text-xl font-semibold mb-4">Enquiries</h1>
 
-      {loading ? (
-        <p className="text-gray-500">Loading enquiries...</p>
-      ) : enquiries.length === 0 ? (
-        <p className="text-gray-500">No enquiries found.</p>
-      ) : (
-        <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600">
-              <tr>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Phone</th>
-                <th className="px-4 py-3 text-left">Loan Type</th>
-                <th className="px-4 py-3 text-left">Message</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-center">Action</th>
-              </tr>
-            </thead>
-
-            <motion.tbody
-              variants={container}
-              initial="hidden"
-              animate="show"
-            >
-              <AnimatePresence>
-                {enquiries.map((e) => (
-                  <motion.tr
-                    key={e.id}
-                    variants={row}
-                    initial="hidden"
-                    animate="show"
-                    exit="exit"
-                    transition={{ duration: 0.25 }}
-                    className="border-t hover:bg-gray-50"
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto border rounded-lg bg-white">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 text-gray-600">
+            <tr>
+              <th className="px-3 py-2 text-left">Name</th>
+              <th className="px-3 py-2 text-left">Phone</th>
+              <th className="px-3 py-2 text-left">Loan</th>
+              <th className="px-3 py-2 text-left">Status</th>
+              <th className="px-3 py-2 text-left">Date</th>
+              <th className="px-3 py-2 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((e) => (
+              <tr key={e.id} className="border-t">
+                <td className="px-3 py-2">{e.name}</td>
+                <td className="px-3 py-2">{e.phone}</td>
+                <td className="px-3 py-2">{e.loanType}</td>
+                <td className="px-3 py-2">
+                  <StatusBadge status={e.status} />
+                </td>
+                <td className="px-3 py-2 text-gray-500">
+                  {new Date(e.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-3 py-2 text-center space-x-3">
+                  <button
+                    onClick={() => updateStatus(e.id, e.status)}
+                    disabled={busyId === e.id}
+                    className="text-blue-600 hover:underline disabled:opacity-50"
                   >
-                    <td className="px-4 py-3 font-medium">{e.name}</td>
-                    <td className="px-4 py-3">{e.phone}</td>
-                    <td className="px-4 py-3">{e.loanType}</td>
-                    <td className="px-4 py-3">{e.message || "-"}</td>
-                    <td className="px-4 py-3 text-gray-500">
-                      {new Date(e.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <motion.button
-                        whileTap={{ scale: 0.94 }}
-                        whileHover={{ scale: 1.05 }}
-                        disabled={deletingId === e.id}
-                        onClick={() => handleDelete(e.id)}
-                        className="
-                          rounded-md
-                          bg-red-50 px-3 py-1.5
-                          text-red-600
-                          hover:bg-red-100
-                          transition
-                          disabled:opacity-50
-                        "
-                      >
-                        {deletingId === e.id ? "Deleting..." : "Delete"}
-                      </motion.button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </AnimatePresence>
-            </motion.tbody>
-          </table>
-        </div>
-      )}
-    </motion.div>
+                    Toggle
+                  </button>
+                  <button
+                    onClick={() => remove(e.id)}
+                    disabled={busyId === e.id}
+                    className="text-red-600 hover:underline disabled:opacity-50"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-3">
+        {data.map((e) => (
+          <div
+            key={e.id}
+            className="border rounded-lg bg-white p-3 text-sm"
+          >
+            <div className="flex justify-between items-center">
+              <p className="font-medium">{e.name}</p>
+              <StatusBadge status={e.status} />
+            </div>
+
+            <p className="text-gray-600">{e.phone}</p>
+            <p className="text-gray-600">{e.loanType}</p>
+
+            {e.message && (
+              <p className="text-gray-600 mt-1">{e.message}</p>
+            )}
+
+            <p className="text-xs text-gray-500 mt-1">
+              {new Date(e.createdAt).toLocaleDateString()}
+            </p>
+
+            <div className="mt-2 flex gap-3">
+              <button
+                onClick={() => updateStatus(e.id, e.status)}
+                disabled={busyId === e.id}
+                className="flex-1 rounded bg-blue-100 py-1 text-blue-700 disabled:opacity-50"
+              >
+                Toggle
+              </button>
+              <button
+                onClick={() => remove(e.id)}
+                disabled={busyId === e.id}
+                className="flex-1 rounded bg-red-100 py-1 text-red-700 disabled:opacity-50"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

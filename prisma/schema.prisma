@@ -14,5 +14,6 @@ model Enquiry {
   phone     String
   loanType  String
   message   String?
+  status    String   @default("NEW")
   createdAt DateTime @default(now())
 }
