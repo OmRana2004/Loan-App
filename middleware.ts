@@ -2,12 +2,16 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname;
   const adminCookie = req.cookies.get("admin-auth");
 
-  const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
-  const isLoginPage = req.nextUrl.pathname === "/admin/login";
+  console.log("MIDDLEWARE:", pathname);
 
-  if (isAdminRoute && !isLoginPage && !adminCookie) {
+  if (
+    pathname.startsWith("/admin") &&
+    pathname !== "/admin/login" &&
+    !adminCookie
+  ) {
     return NextResponse.redirect(
       new URL("/admin/login", req.url)
     );
@@ -17,5 +21,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*"],
 };

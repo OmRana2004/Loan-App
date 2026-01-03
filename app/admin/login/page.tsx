@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
         password,
       });
 
-      window.location.href = "/admin";
+      window.location.href = "/admin/enquiry";
     } catch {
       setError("Invalid email or password");
     }
