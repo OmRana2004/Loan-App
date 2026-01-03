@@ -12,7 +12,7 @@ const inter = Inter({
 
 /* Metadata */
 export const metadata = {
-  title: "Loan Services",
+  title: "MPS",
   description: "Personal, Education and Business Loans",
 };
 
