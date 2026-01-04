@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, FileText, PhoneCall, ShieldCheck, CheckCircle2, Phone } from "lucide-react";
 import { LayoutTextFlip } from "./components/ui/layout-text-flip";
 import StatsGrid from "./components/StatsGrid";
+import BankPartners from "./components/BankPartners";
 
 /* Motion */
 const fadeUp = {
@@ -285,6 +286,8 @@ export default function HomePage() {
     </p>
   </motion.div>
 </section>
+
+<BankPartners />
 
 
       {/* FLOATING CTA */}
