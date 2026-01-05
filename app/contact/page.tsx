@@ -10,6 +10,7 @@ import {
   Banknote,
   CheckCircle2,
   Loader2,
+  Home,
 } from "lucide-react";
 
 export default function ContactPage() {
@@ -28,6 +29,7 @@ export default function ContactPage() {
       name: formData.get("name"),
       phone: formData.get("phone"),
       loanType: formData.get("loanType"),
+      address: formData.get("address"),
       message: formData.get("message"),
     };
 
@@ -116,6 +118,13 @@ export default function ContactPage() {
                 type="tel"
                 icon={Phone}
                 placeholder="Enter your mobile number"
+              />
+
+               <Input
+                label="Address"
+                name="address"
+                icon={Home}
+                placeholder="Enter your address"
               />
 
               <Select

@@ -5,9 +5,9 @@ import { prismaClient } from "@/db";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, phone, loanType, message } = body;
+    const { name, phone, loanType, address, message } = body;
 
-    if (!name || !phone || !loanType) {
+    if (!name || !phone || !loanType || !address) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -19,6 +19,7 @@ export async function POST(req: Request) {
         name,
         phone,
         loanType,
+        address,
         message,
         // status: "NEW", 
       },

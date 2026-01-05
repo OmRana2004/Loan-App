@@ -10,6 +10,7 @@ type Enquiry = {
   name: string;
   phone: string;
   loanType: string;
+  address: string;
   message?: string;
   status: Status;
   createdAt: string;
@@ -81,6 +82,7 @@ export default function AdminEnquiriesPage() {
             <tr>
               <th className="px-3 py-2 text-left">Name</th>
               <th className="px-3 py-2 text-left">Phone</th>
+              <th className="px-3 py-2 text-left">Address</th>
               <th className="px-3 py-2 text-left">Loan</th>
               <th className="px-3 py-2 text-left">Status</th>
               <th className="px-3 py-2 text-left">Date</th>
@@ -92,6 +94,7 @@ export default function AdminEnquiriesPage() {
               <tr key={e.id} className="border-t">
                 <td className="px-3 py-2">{e.name}</td>
                 <td className="px-3 py-2">{e.phone}</td>
+                <td className="px-3 py-2">{e.address}</td>
                 <td className="px-3 py-2">{e.loanType}</td>
                 <td className="px-3 py-2">
                   <StatusBadge status={e.status} />
@@ -134,6 +137,7 @@ export default function AdminEnquiriesPage() {
             </div>
 
             <p className="text-gray-600">{e.phone}</p>
+            <p className="text-gray-600">{e.address}</p>
             <p className="text-gray-600">{e.loanType}</p>
 
             {e.message && (

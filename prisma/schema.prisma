@@ -13,6 +13,7 @@ model Enquiry {
   name      String
   phone     String
   loanType  String
+  address   String?
   message   String?
   status    String   @default("NEW")
   createdAt DateTime @default(now())
