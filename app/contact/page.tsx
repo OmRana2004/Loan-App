@@ -134,7 +134,7 @@ export default function ContactPage() {
                 options={[
                   "Personal Loan",
                   "Education Loan",
-                  "Business Loan",
+                  "Business Loan", 
                 ]}
               />
 
