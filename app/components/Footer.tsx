@@ -58,12 +58,12 @@ export default function Footer() {
           <h4 className="text-white text-sm font-semibold mb-2">Office</h4>
 
           <p className="text-sm text-slate-400 leading-relaxed mb-2">
-            2nd Floor, ABC Tower,<br />
-            Sector 62, Noida – 201309
+            Chandmari Chowk,<br />
+            Doiwala, Dehradun – 248140
           </p>
 
           <a
-            href="https://www.google.com/maps?q=Sector+62+Noida+ABC+Tower"
+            href="https://www.google.com/maps/search/Chandmari+Chowk,+Doiwala,+Dehradun+%E2%80%93+248140+MPS/@30.1758691,78.1097753,19.84z?entry=ttu&g_ep=EgoyMDI2MDEwNi4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition"
