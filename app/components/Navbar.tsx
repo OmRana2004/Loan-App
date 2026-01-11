@@ -19,6 +19,8 @@ import {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
+  const PHONE_NUMBER = "+919876543210"; // 🔴 Replace with your real number
+
   const navItems = [
     { name: "Home", link: "/" },
     { name: "Loans", link: "/loans" },
@@ -40,28 +42,31 @@ export default function Navbar() {
       "
     >
       <ResizableNavbar>
-        {/* Desktop Navbar */}
+        {/* ---------------- Desktop Navbar ---------------- */}
         <NavBody>
           <NavbarLogo />
 
           <NavItems items={navItems} />
 
+          {/* Call Button */}
           <div>
-            <NavbarButton variant="gradient">Talk to an Advisor</NavbarButton>
+            <a href={`tel:${PHONE_NUMBER}`}>
+              <NavbarButton variant="gradient">
+                Talk to an Advisor
+              </NavbarButton>
+            </a>
           </div>
         </NavBody>
 
-        {/* Mobile Navbar */}
+        {/* ---------------- Mobile Navbar ---------------- */}
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <MobileNavToggle
-              isOpen={open}
-              onClick={() => setOpen(!open)}
-            />
+            <MobileNavToggle isOpen={open} onClick={() => setOpen(!open)} />
           </MobileNavHeader>
 
           <MobileNavMenu isOpen={open} onClose={() => setOpen(false)}>
+            {/* Nav Links */}
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -73,9 +78,16 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <NavbarButton variant="gradient" className="w-full">
-             Talk to an Advisor
-            </NavbarButton>
+            {/* Mobile Call Button */}
+            <a
+              href={`tel:${PHONE_NUMBER}`}
+              className="w-full"
+              onClick={() => setOpen(false)}
+            >
+              <NavbarButton variant="gradient" className="w-full">
+                Talk to an Advisor
+              </NavbarButton>
+            </a>
           </MobileNavMenu>
         </MobileNav>
       </ResizableNavbar>

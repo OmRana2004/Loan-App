@@ -92,7 +92,7 @@ export default function HomePage() {
       </h2>
 
       <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
-        We provide <span className="font-medium text-gray-900">responsible private loan solutions</span>
+        We provide <span className="font-medium text-gray-900">responsible private loan solutions </span>
         built on transparency, fairness, and long-term trust. Every loan is
         clearly explained before approval.
       </p>
@@ -121,7 +121,7 @@ export default function HomePage() {
       <motion.a
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.98 }}
-        href="#contact"
+        href="tel:+919084518752"
         className="
           inline-flex items-center gap-3
           bg-blue-600 text-white
