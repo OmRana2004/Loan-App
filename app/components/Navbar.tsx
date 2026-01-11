@@ -19,8 +19,7 @@ import {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const PHONE_NUMBER = "+919876543210"; // 🔴 Replace with your real number
-
+  const PHONE_NUMBER = "+919084518752"; 
   const navItems = [
     { name: "Home", link: "/" },
     { name: "Loans", link: "/loans" },
