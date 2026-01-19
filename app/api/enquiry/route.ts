@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1️⃣ Save enquiry to database
+    // Save enquiry to database..
     const enquiry = await prismaClient.enquiry.create({
       data: {
         name,
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          subject: "📩 New Loan Enquiry Received",
+          subject: "New Loan Enquiry Received",
           name,
           phone,
           loanType,

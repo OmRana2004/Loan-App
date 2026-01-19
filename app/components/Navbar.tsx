@@ -19,7 +19,7 @@ import {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const PHONE_NUMBER = "+919084518752"; 
+  const PHONE_NUMBER = "+919084518752";
   const navItems = [
     { name: "Home", link: "/" },
     { name: "Loans", link: "/loans" },
@@ -49,11 +49,9 @@ export default function Navbar() {
 
           {/* Call Button */}
           <div>
-            <a href={`tel:${PHONE_NUMBER}`}>
-              <NavbarButton variant="gradient">
-                Talk to an Advisor
-              </NavbarButton>
-            </a>
+            <NavbarButton variant="gradient" href={`tel:${PHONE_NUMBER}`}>
+              Talk to an Advisor
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -78,15 +76,14 @@ export default function Navbar() {
             ))}
 
             {/* Mobile Call Button */}
-            <a
+            <NavbarButton
+              variant="gradient"
               href={`tel:${PHONE_NUMBER}`}
               className="w-full"
               onClick={() => setOpen(false)}
             >
-              <NavbarButton variant="gradient" className="w-full">
-                Talk to an Advisor
-              </NavbarButton>
-            </a>
+              Talk to an Advisor
+            </NavbarButton>
           </MobileNavMenu>
         </MobileNav>
       </ResizableNavbar>
