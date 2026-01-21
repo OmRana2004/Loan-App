@@ -18,7 +18,7 @@ import BankPartners from "./components/BankPartners";
 
 /* Motion */
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -29,12 +29,12 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-linear-to-br from-blue-100 via-white to-white">
         <div className="absolute inset-0 bg-[radial-gradient(#e5edff_1px,transparent_1px)] bg-size-[26px_26px] opacity-20" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 pt-28 pb-24 md:pt-32 md:pb-28 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-20 sm:pt-28 sm:pb-24 text-center">
           <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6 }}
             className="flex justify-center mb-6"
           >
             <LayoutTextFlip
@@ -52,49 +52,35 @@ export default function HomePage() {
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            transition={{ delay: 0.15, duration: 0.55 }}
-            className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed"
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xl sm:max-w-2xl mx-auto leading-relaxed"
           >
             Transparent interest rates, flexible repayment plans, and direct
             communication designed to support your financial goals.
           </motion.p>
         </div>
-
-        {/* floating accents */}
-        <motion.div
-          animate={{ y: [0, -18, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-28 -left-28 w-80 h-80 bg-blue-300 rounded-full blur-3xl opacity-25"
-        />
-        <motion.div
-          animate={{ y: [0, 26, 0] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 -right-28 w-80 h-80 bg-indigo-300 rounded-full blur-3xl opacity-25"
-        />
       </section>
 
       {/* ================= ABOUT ================= */}
-      <section className="relative max-w-7xl mx-auto px-4 py-20 md:py-24 overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />
-
+      <section className="relative max-w-7xl mx-auto px-4 py-16 sm:py-20 md:py-24">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="relative grid md:grid-cols-2 gap-16 items-center"
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center"
         >
-          {/* Left */}
+          {/* LEFT */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.45 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
               About <span className="text-blue-600">Our Services</span>
             </h2>
 
-            <p className="text-gray-700 text-base md:text-lg mb-6 max-w-xl">
+            <p className="text-gray-700 text-sm sm:text-base md:text-lg mb-5 max-w-xl">
               We provide{" "}
               <span className="font-medium text-gray-900">
                 responsible private loan solutions
@@ -102,37 +88,35 @@ export default function HomePage() {
               built on transparency, fairness, and long-term trust.
             </p>
 
-            <p className="text-gray-600 max-w-xl mb-8">
+            <p className="text-gray-600 text-sm sm:text-base max-w-xl mb-8">
               Our repayment structures are designed around your income and
               comfort — never unrealistic pressure or hidden conditions.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
               {[
                 "Transparent terms & pricing",
                 "Flexible repayment planning",
                 "Personal loan advisor",
                 "No hidden conditions",
               ].map((point, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-blue-600" />
+                <div key={i} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-blue-600" />
                   <span className="text-sm text-gray-700">{point}</span>
                 </div>
               ))}
             </div>
 
-            <motion.a
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
+            <a
               href="tel:+919084518752"
-              className="inline-flex items-center gap-3 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-3 rounded-lg text-sm font-medium shadow hover:bg-blue-700 transition"
             >
               <Phone className="w-4 h-4" />
               Talk to an Advisor
-            </motion.a>
+            </a>
           </motion.div>
 
-          {/* Right */}
+          {/* RIGHT */}
           <StatsGrid />
         </motion.div>
       </section>
@@ -141,27 +125,21 @@ export default function HomePage() {
       <WhyChooseUs />
 
       {/* ================= HOW IT WORKS ================= */}
-      <section className="relative bg-gray-50 py-20 md:py-24 overflow-hidden">
+      <section className="relative bg-gray-50 py-16 sm:py-20 md:py-24">
         <div className="absolute inset-0 bg-linear-to-b from-blue-50/60 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-2xl md:text-4xl font-bold"
-            >
+          <div className="text-center mb-14">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold">
               How It <span className="text-blue-600">Works</span>
-            </motion.h2>
+            </h2>
 
-            <p className="mt-4 text-gray-600 max-w-xl mx-auto">
-              A simple, transparent process designed to get you funded quickly
-              without unnecessary delays.
+            <p className="mt-3 text-gray-600 text-sm sm:text-base max-w-xl mx-auto">
+              A simple, transparent process designed to get you funded quickly.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             {[
               {
                 step: "01",
@@ -184,30 +162,23 @@ export default function HomePage() {
             ].map((item, i) => {
               const Icon = item.icon;
               return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.15 }}
-                  className="text-center"
-                >
-                  <div className="mx-auto w-14 h-14 rounded-full bg-white border border-blue-100 flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-blue-600" />
+                <div key={i} className="text-center">
+                  <div className="mx-auto w-12 h-12 rounded-full bg-white border border-blue-100 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-blue-600" />
                   </div>
 
-                  <div className="mt-4 text-sm font-semibold text-blue-600">
+                  <div className="mt-3 text-sm font-semibold text-blue-600">
                     Step {item.step}
                   </div>
 
-                  <h3 className="mt-2 text-lg font-semibold">
+                  <h3 className="mt-2 text-base font-semibold">
                     {item.title}
                   </h3>
 
                   <p className="mt-2 text-gray-600 text-sm max-w-xs mx-auto">
                     {item.desc}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -215,39 +186,30 @@ export default function HomePage() {
       </section>
 
       {/* ================= TRUST NOTE ================= */}
-      <section className="relative max-w-4xl mx-auto px-4 py-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="rounded-2xl px-6 md:px-10 py-6 md:py-8 bg-linear-to-br from-gray-50 to-white border border-gray-100 shadow-sm text-center"
-        >
-          <p className="text-gray-600 text-sm md:text-base">
+      <section className="max-w-4xl mx-auto px-4 py-12">
+        <div className="rounded-xl px-5 py-6 bg-linear-to-br from-gray-50 to-white border border-gray-100 shadow-sm text-center">
+          <p className="text-gray-600 text-sm sm:text-base">
             We follow{" "}
             <span className="font-medium text-gray-800">
               responsible lending practices
             </span>
             . All terms are communicated clearly before approval.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       <BankPartners />
 
       {/* ================= FLOATING CTA ================= */}
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        className="fixed bottom-5 right-5 z-50"
-      >
+      <div className="fixed bottom-4 right-4 z-50">
         <Link
           href="/loans"
-          className="bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm font-medium"
+          className="bg-blue-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm font-medium"
         >
           Explore Loans
           <ArrowRight size={14} />
         </Link>
-      </motion.div>
+      </div>
     </>
   );
 }
