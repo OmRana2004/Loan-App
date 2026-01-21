@@ -29,10 +29,18 @@ export default function RootLayout({
           bg-slate-50
           text-slate-800
           antialiased
+          overflow-x-hidden
         "
       >
+        {/* Navbar */}
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+
+        {/* Main content */}
+        <main className="min-h-screen pt-16 sm:pt-18">
+          {children}
+        </main>
+
+        {/* Footer */}
         <Footer />
       </body>
     </html>

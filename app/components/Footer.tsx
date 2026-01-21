@@ -15,12 +15,9 @@ export default function Footer() {
     <footer className="bg-slate-900 text-slate-300 mt-20">
       {/* TOP */}
       <div className="max-w-7xl mx-auto px-6 py-10 grid gap-8 md:grid-cols-4 relative">
-
         {/* BRAND */}
         <div>
-          <h3 className="text-white text-base font-semibold mb-2">
-            LoanBank
-          </h3>
+          <h3 className="text-white text-base font-semibold mb-2">LoanBank</h3>
           <p className="text-sm text-slate-400 leading-relaxed mb-3">
             Transparent loan solutions facilitated through RBI-registered NBFC
             partners.
@@ -36,9 +33,21 @@ export default function Footer() {
         <div>
           <h4 className="text-white text-sm font-semibold mb-2">Loans</h4>
           <ul className="space-y-1.5 text-sm">
-            <li><Link href="/loans/personal-loan" className={linkClass}>Personal Loan</Link></li>
-            <li><Link href="/loans/education-loan" className={linkClass}>Education Loan</Link></li>
-            <li><Link href="/loans/business-loan" className={linkClass}>Business Loan</Link></li>
+            <li>
+              <Link href="/loans/personal-loan" className={linkClass}>
+                Personal Loan
+              </Link>
+            </li>
+            <li>
+              <Link href="/loans/education-loan" className={linkClass}>
+                Education Loan
+              </Link>
+            </li>
+            <li>
+              <Link href="/loans/business-loan" className={linkClass}>
+                Business Loan
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -46,10 +55,26 @@ export default function Footer() {
         <div>
           <h4 className="text-white text-sm font-semibold mb-2">Company</h4>
           <ul className="space-y-1.5 text-sm">
-            <li><Link href="/" className={linkClass}>About</Link></li>
-            <li><Link href="/contact" className={linkClass}>Contact</Link></li>
-            <li><Link href="/" className={linkClass}>Privacy Policy</Link></li>
-            <li><Link href="/" className={linkClass}>Terms</Link></li>
+            <li>
+              <Link href="/" className={linkClass}>
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className={linkClass}>
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy-policy" className={linkClass}>
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className={linkClass}>
+                Terms
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -58,7 +83,8 @@ export default function Footer() {
           <h4 className="text-white text-sm font-semibold mb-2">Office</h4>
 
           <p className="text-sm text-slate-400 leading-relaxed mb-2">
-            Chandmari Chowk,<br />
+            Chandmari Chowk,
+            <br />
             Doiwala, Dehradun – 248140
           </p>
 
@@ -107,8 +133,16 @@ export default function Footer() {
       <div className="border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src="/banks/ssl.png" alt="SSL Secure" className="h-26 opacity-80" />
-            <img src="/banks/so.png" alt="ISO 27001" className="h-26 opacity-80" />
+            <img
+              src="/banks/ssl.png"
+              alt="SSL Secure"
+              className="h-26 opacity-80"
+            />
+            <img
+              src="/banks/so.png"
+              alt="ISO 27001"
+              className="h-26 opacity-80"
+            />
           </div>
 
           <p className="text-sm text-slate-500 text-center md:text-right max-w-xl">
