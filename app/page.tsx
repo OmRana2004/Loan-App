@@ -93,7 +93,8 @@ export default function HomePage() {
               comfort — never unrealistic pressure or hidden conditions.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            {/* ✅ GRID ON MOBILE */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-8">
               {[
                 "Transparent terms & pricing",
                 "Flexible repayment planning",
@@ -139,7 +140,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {/* ✅ GRID ON MOBILE */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {[
               {
                 step: "01",
@@ -171,11 +173,11 @@ export default function HomePage() {
                     Step {item.step}
                   </div>
 
-                  <h3 className="mt-2 text-base font-semibold">
+                  <h3 className="mt-2 text-sm sm:text-base font-semibold">
                     {item.title}
                   </h3>
 
-                  <p className="mt-2 text-gray-600 text-sm max-w-xs mx-auto">
+                  <p className="mt-2 text-gray-600 text-xs sm:text-sm max-w-xs mx-auto">
                     {item.desc}
                   </p>
                 </div>
