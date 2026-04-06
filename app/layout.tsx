@@ -2,15 +2,14 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Inter } from "next/font/google";
+import CustomChat from "./components/CustomChat";
 
-/* Font */
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
 });
 
-/* Metadata */
 export const metadata = {
   title: "MPS",
   description: "Personal, Education and Business Loans",
@@ -23,6 +22,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
+      
+      {/* ✅ ADD THIS HEAD */}
+      <head>
+        <link
+          href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+          rel="stylesheet"
+        />
+      </head>
+
       <body
         className="
           font-sans
@@ -32,15 +40,15 @@ export default function RootLayout({
           overflow-x-hidden
         "
       >
-        {/* Navbar */}
         <Navbar />
 
-        {/* Main content */}
         <main className="min-h-screen pt-16 sm:pt-18">
           {children}
         </main>
 
-        {/* Footer */}
+        {/* ✅ Chat Component */}
+        <CustomChat />
+
         <Footer />
       </body>
     </html>

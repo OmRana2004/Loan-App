@@ -203,7 +203,7 @@ export default function HomePage() {
       <BankPartners />
 
       {/* ================= FLOATING CTA ================= */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-4 left-4 z-50">
         <Link
           href="/loans"
           className="bg-blue-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm font-medium"
